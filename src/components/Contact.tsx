@@ -24,7 +24,7 @@ const LabelInputContainer = ({
 };
 export default function Contact() {
     return (
-        <section id="contact" className="bg-background dark:bg-black py-12 bg-grid-small-white/[0.3] relative">
+        <section className="bg-background dark:bg-black py-12 bg-grid-small-white/[0.3] relative">
                   <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_40%,black)]"></div>
         <div className="container mx-auto px-6 lg:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

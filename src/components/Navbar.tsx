@@ -14,7 +14,7 @@ interface HyperTextNavBarProps {
 
 export const HyperTextNavBar: React.FC<HyperTextNavBarProps> = ({ word }) => {
   return (
-    <HyperText className="text-2xl text-primary">{word}</HyperText>
+    <HyperText animateOnHover={false} className="text-2xl text-primary">{word}</HyperText>
   );
 };
 
@@ -23,7 +23,7 @@ export default function MainNavBar() {
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
       <NavbarBrand>
-        <Link href="/">
+        <Link href="#">
         <Logo />
         <HyperText className="text-3xl ml-2 text-primary">Sujal</HyperText>
         </Link>
@@ -39,23 +39,23 @@ export default function MainNavBar() {
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="#about">
           <HyperTextNavBar word="About"/>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="#projects">
             <HyperTextNavBar word="Projects"/>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            <HyperTextNavBar word="Blog"/>
+          <Link color="foreground" href="#contact">
+            <HyperTextNavBar word="Contact"/>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            <HyperTextNavBar word="Contact"/>
+          <Link target="_blank" color="foreground" href="https://blog.sujal.info">
+            <HyperTextNavBar word="Blog"/>
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -64,16 +64,16 @@ export default function MainNavBar() {
           <Link href="#"><HyperTextNavBar word="home"/></Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="#"><HyperTextNavBar word="about"/></Link>
+          <Link href="#about"><HyperTextNavBar word="about"/></Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="#"><HyperTextNavBar word="projects"/></Link>
+          <Link href="#projects"><HyperTextNavBar word="projects"/></Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link href="#"><HyperTextNavBar word="blog"/></Link>
+          <Link href="#contact"><HyperTextNavBar word="contact"/></Link>
         </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link href="#"><HyperTextNavBar word="contact"/></Link>
+         <NavbarMenuItem>
+          <Link href="https://blog.sujal.info"><HyperTextNavBar word="blog"/></Link>
         </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>

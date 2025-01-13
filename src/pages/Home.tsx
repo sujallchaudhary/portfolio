@@ -10,15 +10,15 @@ export default function HomePage() {
     return(
        <>
          <Hero />
-        <Heading text="Skills" />
+        <Heading text="skills" />
         <Skills />
-        <Heading text="About"/>
+        <Heading text="about"/>
         <About />
-        <Heading text="Projects" />
+        <Heading text="projects" />
         <Projects />
-        <Heading text="Reviews" />
+        <Heading text="reviews" />
         <Reviews />
-        <Heading text="Contact" />
+        <Heading text="contact" />
         <Contact />
 
        </>
