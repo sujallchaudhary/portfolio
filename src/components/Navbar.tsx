@@ -1,13 +1,9 @@
 "use client";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem,NavbarMenuToggle,NavbarMenu,NavbarMenuItem,Link} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem,NavbarMenuToggle,NavbarMenu,NavbarMenuItem} from "@nextui-org/react";
+import Link from "next/link";
 import HyperText from "./ui/hyper-text";
 import React from "react";
 
-export const Logo = () => {
-  return (
-    <img className="rounded-full" src="https://sdrive.blr1.cdn.digitaloceanspaces.com/files/4cfb797bd42593aaf2b981960f6966d3.gif" alt="ACME logo" width="32" height="32" />
-  );
-};
 interface HyperTextNavBarProps {
   word: string;
 }
@@ -21,16 +17,15 @@ export const HyperTextNavBar: React.FC<HyperTextNavBarProps> = ({ word }) => {
 export default function MainNavBar() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar onMenuOpenChange={setIsMenuOpen} style={{zIndex:1000}} >
       <NavbarBrand>
         <Link href="#">
-        <Logo />
         <HyperText className="text-3xl ml-2 text-primary">Sujal</HyperText>
         </Link>
       </NavbarBrand>
       <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className="sm:hidden" style={{zIndex:1000}}
         />
       <NavbarContent className="hidden sm:flex gap-4" justify="end">
         <NavbarItem>
@@ -59,7 +54,7 @@ export default function MainNavBar() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
+      <NavbarMenu style={{zIndex:1000}}>
         <NavbarMenuItem>
           <Link href="#"><HyperTextNavBar word="home"/></Link>
         </NavbarMenuItem>
