@@ -41,6 +41,10 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(formData.name === "" || formData.email === "" || formData.phoneNo === "" || formData.subject === "" || formData.message === "") {
+      setSubmissionMessage("Please fill all the fields.");
+      return;
+    }
     setIsSubmitting(true);
     setSubmissionMessage("");
 
