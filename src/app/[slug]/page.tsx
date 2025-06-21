@@ -6,7 +6,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  const url = 'https://drive.sujal.info/surl?s_url=' + slug;
+  const url = 'https://api.sujal.info/api/url/' + slug;
   console.log(url)
   redirect(url);
 }
