@@ -9,7 +9,7 @@ export const HoverEffect = ({
 }: {
   items: {
     name: string;
-    img: string;
+    image: string;
   }[];
   className?: string;
 }) => {
@@ -47,7 +47,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.img}</CardTitle>
+            <CardTitle>{item.image}</CardTitle>
             <CardDescription>{item.name}</CardDescription>
           </Card>
         </div>

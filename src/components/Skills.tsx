@@ -7,15 +7,14 @@ export default function Skills() {
 
     useEffect(() => {
         async function fetchskills() {
-            const response = await fetch("https://api.sujal.info/portfolio/skills", {
-                method: "POST",
+            const response = await fetch("https://api.sujal.info/api/portfolio/skills", {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ type: "display" })
+                }
             });
             const data = await response.json();
-            setSkills(data);
+            setSkills(data.data);
         }
 
         fetchskills();

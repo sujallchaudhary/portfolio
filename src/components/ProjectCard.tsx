@@ -14,11 +14,9 @@ interface ProjectCardProps {
     projectImg:string;
     projectDemo:string;
     projectSourceCode:string;
-    isLive:string;
-    isSourceCode:string;
 }
 
-export function ProjectCard({projectName,projectDescription,projectImg,projectDemo,projectSourceCode,isLive,isSourceCode}:ProjectCardProps) {
+export function ProjectCard({projectName,projectDescription,projectImg,projectDemo,projectSourceCode}:ProjectCardProps) {
   return (
     <CardContainer className="inter-var">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-8 border">
@@ -45,7 +43,7 @@ export function ProjectCard({projectName,projectDescription,projectImg,projectDe
           {projectDescription}
         </CardItem>
         <div className="flex justify-between items-center mt-5">
-        {isLive ? (
+        {projectDemo ? (
               <CardItem
                 translateZ={20}
                 as={Link}
@@ -55,7 +53,7 @@ export function ProjectCard({projectName,projectDescription,projectImg,projectDe
                 <InteractiveHoverButton text="try now"/>
               </CardItem>
             ) : null}
-{isSourceCode==="1" ? (
+{projectSourceCode ? (
               <CardItem
                 translateZ={20}
                 as={Link}

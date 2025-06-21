@@ -49,7 +49,7 @@ export default function Contact() {
     setSubmissionMessage("");
 
     try {
-      const response = await fetch("https://api.sujal.info/portfolio/contact", {
+      const response = await fetch("https://api.sujal.info/api/portfolio/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
