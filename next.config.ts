@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'sdrive.blr1.cdn.digitaloceanspaces.com',
+        hostname: 'hajiriresource.blob.core.windows.net',
 
       },
       {
