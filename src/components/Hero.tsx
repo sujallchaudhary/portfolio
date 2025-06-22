@@ -35,7 +35,7 @@ export default function Hero() {
                     <div className="relative col-span-2">
                         <Lens lensSize={200} hovering={hovering1} setHovering={setHovering1}>
                             <Image
-                                src="https://sdrive.blr1.cdn.digitaloceanspaces.com/files/82f8897dbd50ce35a317cbce07f8d274.jpg"
+                                src="https://hajiriresource.blob.core.windows.net/drive/files/82f8897dbd50ce35a317cbce07f8d274.jpg"
                                 alt="Left image"
                                 className="w-full h-96 object-cover border-2 border-primary"
                                 height={1080}
