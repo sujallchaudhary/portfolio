@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { HoverEffect } from "./ui/card-hover-effect";
+const api = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Skills() {
     const [skills, setSkills] = useState([]);
 
     useEffect(() => {
         async function fetchskills() {
-            const response = await fetch("https://api.sujal.info/api/portfolio/skills", {
+            const response = await fetch(api + "/api/portfolio/skills", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

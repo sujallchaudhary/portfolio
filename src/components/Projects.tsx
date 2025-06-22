@@ -9,12 +9,13 @@ interface ProjectDataInterface {
   demoLink: string;
   sourceCodeLink: string;
 };
+const api = process.env.NEXT_PUBLIC_API_URL;
   export default function Projects() {
     const [projects, setProjects] = useState<ProjectDataInterface[]>([]);
 
     useEffect(() => {
         async function fetchProjects() {
-            const response = await fetch("https://api.sujal.info/api/portfolio/projects", {
+            const response = await fetch(api + "/api/portfolio/projects", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

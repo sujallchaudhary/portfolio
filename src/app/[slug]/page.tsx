@@ -5,8 +5,9 @@ export default async function Page({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const api = process.env.NEXT_PUBLIC_API_URL;
   const slug = (await params).slug;
-  const url = 'https://api.sujal.info/api/url/' + slug;
+  const url = api + '/api/url/' + slug;
   console.log(url)
   redirect(url);
 }
