@@ -7,7 +7,7 @@ export function About() {
         "Hi, I'm Sujal Chaudhary! I'm passionate about web development and excel at solving real-life problems through technology. With a strong skill set in building complex projects, I thrive on tackling challenges and creating innovative solutions. I'm always ready for collaborations and open to new work opportunities to continue growing and making an impact",
       name: "Sujal Chaudhary",
       designation: "Full Stack Developer",
-      src: "https://sdrive.blr1.cdn.digitaloceanspaces.com/files/4d01ac20180151d14271700be8b45822.jpg",
+      src: "https://hajiriresource.blob.core.windows.net/drive/files/4d01ac20180151d14271700be8b45822.jpg",
       heading:"Introduction"
     },
     {
