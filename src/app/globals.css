@@ -2,79 +2,150 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+/* Colors are RGB triplets so Tailwind alpha modifiers keep working */
+:root {
+  --paper: 247 246 241;
+  --ink: 26 28 35;
+  --blue: 37 71 244;
+  --red: 217 72 43;
+  --muted: 80 84 95;
+  --faint: 144 148 160;
+  --grid: rgba(37, 71, 244, 0.07);
 }
+
+/* Easter egg: Konami code flips the notebook into a blueprint */
+html.blueprint {
+  --paper: 16 30 96;
+  --ink: 236 240 255;
+  --blue: 132 176 255;
+  --red: 255 179 107;
+  --muted: 178 188 224;
+  --faint: 120 132 180;
+  --grid: rgba(236, 240, 255, 0.09);
+}
+
 html {
   scroll-behavior: smooth;
+  background-color: rgb(var(--paper));
 }
+
+/* Graph-paper ground */
+body {
+  background-color: rgb(var(--paper));
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: rgb(var(--ink));
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+::selection {
+  background: rgb(var(--blue));
+  color: rgb(var(--paper));
+}
+
+/* Thin ink scrollbar */
 ::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--paper));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--ink));
+  border: 3px solid rgb(var(--paper));
+  border-radius: 6px;
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    overflow-y: scroll;
-    scrollbar-width: none;
-  }
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+:focus-visible {
+  outline: 2px solid rgb(var(--blue));
+  outline-offset: 3px;
 }
 
-@layer base {
-  * {
-    @apply border-border;
+/* Marker-highlight sweep behind text on hover */
+.highlight-hover {
+  background-image: linear-gradient(
+    rgb(var(--blue) / 0.22),
+    rgb(var(--blue) / 0.22)
+  );
+  background-repeat: no-repeat;
+  background-size: 0% 45%;
+  background-position: 0 80%;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.highlight-hover:hover,
+.highlight-hover:focus-visible {
+  background-size: 100% 45%;
+}
+
+/* Permanent marker highlight for key words */
+.marker {
+  background-image: linear-gradient(
+    rgb(var(--blue) / 0.2),
+    rgb(var(--blue) / 0.2)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 42%;
+  background-position: 0 82%;
+}
+
+/* Pen-line underline reveal */
+.link-pen {
+  position: relative;
+}
+.link-pen::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  background: rgb(var(--blue));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-pen:hover::after,
+.link-pen:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Ruled index-card lines */
+.ruled {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 25px,
+    rgb(var(--blue) / 0.12) 25px,
+    rgb(var(--blue) / 0.12) 26px
+  );
+}
+
+/* Ink-splat confetti particle (spawned by easter eggs) */
+.ink-splat {
+  position: fixed;
+  z-index: 400;
+  pointer-events: none;
+  font-size: 18px;
+  line-height: 1;
+  will-change: transform, opacity;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.75s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  body {
-    @apply text-foreground;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
