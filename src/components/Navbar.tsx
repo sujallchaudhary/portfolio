@@ -9,9 +9,9 @@ import { sfx, isMuted, setMuted } from "@/lib/sfx";
 import { inkBurst } from "@/lib/confetti";
 
 const NAV_LINKS = [
-  { label: "Work", href: "#projects", id: "projects" },
   { label: "Skills", href: "#skills", id: "skills" },
   { label: "About", href: "#about", id: "about" },
+  { label: "Work", href: "#projects", id: "projects" },
   { label: "Contact", href: "#contact", id: "contact" },
   { label: "Blog", href: "https://blog.sujal.info", id: "blog", external: true },
 ];
