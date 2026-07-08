@@ -13,17 +13,6 @@
   --grid: rgba(37, 71, 244, 0.07);
 }
 
-/* Easter egg: Konami code flips the notebook into a blueprint */
-html.blueprint {
-  --paper: 16 30 96;
-  --ink: 236 240 255;
-  --blue: 132 176 255;
-  --red: 255 179 107;
-  --muted: 178 188 224;
-  --faint: 120 132 180;
-  --grid: rgba(236, 240, 255, 0.09);
-}
-
 html {
   scroll-behavior: smooth;
   background-color: rgb(var(--paper));
@@ -48,17 +37,12 @@ body {
   color: rgb(var(--paper));
 }
 
-/* Thin ink scrollbar */
+/* No scrollbars — the margin pencil tracks scroll position instead */
 ::-webkit-scrollbar {
-  width: 10px;
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: rgb(var(--paper));
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(var(--ink));
-  border: 3px solid rgb(var(--paper));
-  border-radius: 6px;
+html {
+  scrollbar-width: none;
 }
 
 :focus-visible {
