@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useSpring,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { IconVolume, IconVolumeOff } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { sfx, isMuted, setMuted } from "@/lib/sfx";
@@ -52,13 +47,6 @@ export default function Navbar() {
       inkBurst(e.clientX, e.clientY, 14);
     }
   };
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -102,11 +90,6 @@ export default function Navbar() {
             : "border-b-2 border-transparent"
         )}
       >
-        <motion.div
-          className="absolute inset-x-0 top-0 h-[3px] origin-left bg-blue"
-          style={{ scaleX: progress }}
-          aria-hidden
-        />
         <nav
           className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8"
           aria-label="Primary"

@@ -5,7 +5,6 @@ import {
   AnimatePresence,
   motion,
   useScroll,
-  useSpring,
   useTransform,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -21,8 +20,7 @@ function MarginPen({
   onToggle: () => void;
 }) {
   const { scrollYProgress } = useScroll();
-  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
-  const top = useTransform(smooth, [0, 1], ["8vh", "88vh"]);
+  const top = useTransform(scrollYProgress, [0, 1], ["8vh", "88vh"]);
 
   return (
     <motion.button
