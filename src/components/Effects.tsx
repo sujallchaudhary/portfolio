@@ -44,7 +44,7 @@ export default function Effects() {
     const nightShift =
       new Date().getHours() < 5 ? "\n(also — it's late. hydrate. ☕)" : "";
     console.log(
-      `%c✎ Hey, fellow developer! %c\n\nPoking around? Nice. A few secrets are inked in:\n  · type "blue"  → blueprint mode\n  · type "party" → don't ask, just type it\n  · type "sujal" → summons me\n  · the * in the logo is clickable. repeatedly.\n\nSource-minded? Say hi: https://sujal.info/github${nightShift}`,
+      `%c✎ Hey, fellow developer! %c\n\nPoking around? Nice. A few secrets are inked in:\n  · type any color — "red", "green", "purple"… → swap the pen\n  · type "blue"  → blueprint mode\n  · type "reset" → fresh ballpoint\n  · type "party" → don't ask, just type it\n  · type "sujal" → summons me\n  · the * in the logo is clickable. repeatedly.\n\nSource-minded? Say hi: https://sujal.info/github${nightShift}`,
       "font-size:16px; font-weight:bold; color:#2547f4;",
       "font-size:12px; color:#50545f;"
     );
@@ -52,8 +52,42 @@ export default function Effects() {
 
   // Typed-word easter eggs (ignored while typing in form fields)
   useEffect(() => {
+    // Pen-ink shades: saturated but dark enough to stay readable on paper
+    const INKS: Record<string, string> = {
+      red: "203 43 28",
+      green: "22 138 61",
+      purple: "124 45 216",
+      violet: "124 45 216",
+      orange: "224 82 8",
+      pink: "219 39 119",
+      magenta: "219 39 119",
+      teal: "13 148 136",
+      cyan: "8 145 178",
+      yellow: "202 138 4",
+      gold: "202 138 4",
+      brown: "146 64 14",
+      black: "26 28 35",
+      gray: "87 94 108",
+      grey: "87 94 108",
+    };
+
+    const clearInk = () => {
+      const style = document.documentElement.style;
+      style.removeProperty("--blue");
+      style.removeProperty("--grid");
+    };
+
+    const setInk = (rgb: string) => {
+      // A typed color always brings us back to paper first
+      document.documentElement.classList.remove("blueprint");
+      const style = document.documentElement.style;
+      style.setProperty("--blue", rgb);
+      style.setProperty("--grid", `rgba(${rgb.split(" ").join(",")}, 0.07)`);
+    };
+
     const eggs: Record<string, () => void> = {
       blue: () => {
+        clearInk();
         const on = document.documentElement.classList.toggle("blueprint");
         sfx.unlock();
         inkBurst(window.innerWidth / 2, window.innerHeight / 2, 36);
@@ -62,6 +96,12 @@ export default function Effects() {
             ? "◫ Blueprint mode — type \"blue\" again to flip back."
             : "✓ Back to paper. The blueprint is safe with me."
         );
+      },
+      reset: () => {
+        clearInk();
+        document.documentElement.classList.remove("blueprint");
+        sfx.pop();
+        showToast("✓ Fresh ballpoint. Back to blue ink.");
       },
       party: () => {
         sfx.unlock();
@@ -74,6 +114,15 @@ export default function Effects() {
         showToast("👋 You called? — Sujal");
       },
     };
+
+    for (const [name, rgb] of Object.entries(INKS)) {
+      eggs[name] = () => {
+        setInk(rgb);
+        sfx.pop();
+        inkBurst(window.innerWidth / 2, window.innerHeight / 2, 24);
+        showToast(`✎ Re-inked the notebook in ${name}. Type "reset" to undo.`);
+      };
+    }
     const maxLen = Math.max(...Object.keys(eggs).map((w) => w.length));
 
     const onKey = (e: KeyboardEvent) => {
