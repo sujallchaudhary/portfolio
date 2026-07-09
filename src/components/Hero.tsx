@@ -197,14 +197,17 @@ export default function Hero() {
       </div>
 
       <div className="border-y-2 border-ink bg-paper py-3">
-        <Marquee className="[--duration:32s] [--gap:2.5rem] p-0">
+        <Marquee pauseOnHover className="[--duration:32s] [--gap:2.5rem] p-0">
           {TICKER_WORDS.map((word) => (
             <span
               key={word}
               className="flex items-center gap-10 font-mono text-xs font-medium uppercase tracking-[0.2em] text-ink"
             >
               {word}
-              <span className="text-blue" aria-hidden>
+              <span
+                className="text-blue transition-transform duration-700 ease-out group-hover:rotate-[135deg]"
+                aria-hidden
+              >
                 ✳
               </span>
             </span>

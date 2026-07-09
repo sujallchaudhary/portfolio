@@ -71,6 +71,35 @@ function jitter(freq: number, spread = 0.12) {
   return freq * (1 + (Math.random() * 2 - 1) * spread);
 }
 
+/** Short filtered noise burst — the basis of paper/pencil textures */
+function noiseBurst({
+  duration = 0.08,
+  gain = 0.04,
+  freq = 2200,
+  q = 1.1,
+}: { duration?: number; gain?: number; freq?: number; q?: number } = {}) {
+  const c = getCtx();
+  if (!c || getMuted()) return;
+  const t0 = c.currentTime;
+  const length = Math.ceil(c.sampleRate * duration);
+  const buffer = c.createBuffer(1, length, c.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+  const src = c.createBufferSource();
+  src.buffer = buffer;
+  const filter = c.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = freq;
+  filter.Q.value = q;
+  const g = c.createGain();
+  g.gain.setValueAtTime(gain, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  src.connect(filter);
+  filter.connect(g);
+  g.connect(c.destination);
+  src.start(t0);
+}
+
 export const sfx = {
   /** Soft pen tick — plain links; pitch varies slightly every time */
   tick: () =>
@@ -85,6 +114,9 @@ export const sfx = {
     }),
   /** Bubbly pop — stickers and eggs */
   pop: () => tone(420, { duration: 0.12, gain: 0.06, slideTo: 950 }),
+  /** Pencil-on-paper scratch — copy actions and small utilities */
+  scratch: () =>
+    noiseBurst({ duration: 0.09, gain: 0.045, freq: jitter(2400, 0.15) }),
   /** Two-note success chime */
   ding: () => {
     tone(880, { duration: 0.3, gain: 0.05 });
