@@ -6,7 +6,11 @@
 const GLYPHS = ["✳", "✦", "+", "•", "~"];
 const COLOR_VARS = ["--blue", "--red", "--ink"];
 
-export function inkBurst(x: number, y: number, count = 18) {
+/** Alternate glyph sets for themed eggs */
+export const HEART_GLYPHS = ["♥", "✿", "✩", "•", "~"];
+export const STAR_GLYPHS = ["✦", "✧", "★", "✩", "·"];
+
+export function inkBurst(x: number, y: number, count = 18, glyphs = GLYPHS) {
   if (typeof document === "undefined") return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -14,7 +18,7 @@ export function inkBurst(x: number, y: number, count = 18) {
     const el = document.createElement("span");
     el.className = "ink-splat";
     el.setAttribute("aria-hidden", "true");
-    el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    el.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
     el.style.left = `${x}px`;
     el.style.top = `${y}px`;
     el.style.color = `rgb(var(${COLOR_VARS[i % COLOR_VARS.length]}))`;
@@ -41,7 +45,7 @@ export function inkBurst(x: number, y: number, count = 18) {
 }
 
 /** Easter egg: glyphs rain down the whole page like spilled ink */
-export function inkRain(count = 40) {
+export function inkRain(count = 40, glyphs = GLYPHS) {
   if (typeof document === "undefined") return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -49,7 +53,7 @@ export function inkRain(count = 40) {
     const el = document.createElement("span");
     el.className = "ink-splat";
     el.setAttribute("aria-hidden", "true");
-    el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    el.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
     el.style.left = `${Math.random() * 100}vw`;
     el.style.top = "-30px";
     el.style.color = `rgb(var(${COLOR_VARS[i % COLOR_VARS.length]}))`;
