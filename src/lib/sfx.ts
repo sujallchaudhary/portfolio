@@ -117,6 +117,22 @@ export const sfx = {
   /** Pencil-on-paper scratch — copy actions and small utilities */
   scratch: () =>
     noiseBurst({ duration: 0.09, gain: 0.045, freq: jitter(2400, 0.15) }),
+  /** Squeaky two-note meow — the cute-mode cat */
+  meow: () => {
+    tone(jitter(620, 0.06), {
+      type: "triangle",
+      duration: 0.22,
+      gain: 0.06,
+      slideTo: 900,
+    });
+    tone(880, {
+      type: "triangle",
+      duration: 0.3,
+      gain: 0.05,
+      delay: 0.2,
+      slideTo: 420,
+    });
+  },
   /** Two-note success chime */
   ding: () => {
     tone(880, { duration: 0.3, gain: 0.05 });

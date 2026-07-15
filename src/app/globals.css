@@ -109,6 +109,79 @@ html {
   );
 }
 
+/* Cute mode (type "cute"): pastel palette comes from JS; here every corner goes soft */
+html.cute * {
+  border-radius: 12px;
+}
+
+/* Cute-mode cat: patrols the bottom edge, bobbing as it goes; click to pet */
+.cute-cat {
+  position: fixed;
+  bottom: 2px;
+  left: -70px;
+  z-index: 260;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  animation: cat-walk 36s linear infinite;
+}
+.cute-cat-body {
+  display: inline-block;
+  animation: cat-bob 0.5s ease-in-out infinite alternate;
+}
+/* The 🐈 glyph faces left; scaleX(-1) turns it toward its walking direction */
+@keyframes cat-walk {
+  0% {
+    transform: translateX(0) scaleX(-1);
+  }
+  48% {
+    transform: translateX(calc(100vw + 140px)) scaleX(-1);
+  }
+  50% {
+    transform: translateX(calc(100vw + 140px)) scaleX(1);
+  }
+  98% {
+    transform: translateX(0) scaleX(1);
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+  }
+}
+@keyframes cat-bob {
+  from {
+    transform: translateY(0) rotate(-2deg);
+  }
+  to {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+
+/* Cute-mode hearts drifting up from the bottom of the page */
+.cute-heart {
+  position: fixed;
+  bottom: -24px;
+  z-index: 255;
+  color: rgb(var(--blue) / 0.7);
+  pointer-events: none;
+  animation: heart-float 4s ease-in forwards;
+}
+@keyframes heart-float {
+  0% {
+    transform: translateY(0) rotate(-8deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-45vh) rotate(10deg);
+    opacity: 0;
+  }
+}
+
 /* Ink-splat confetti particle (spawned by easter eggs) */
 .ink-splat {
   position: fixed;

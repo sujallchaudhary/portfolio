@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { sfx } from "@/lib/sfx";
-import { inkBurst, inkRain } from "@/lib/confetti";
+import { inkBurst, inkRain, HEART_GLYPHS, STAR_GLYPHS } from "@/lib/confetti";
 
 /** Pen nib that rides the red margin rule; clicking it toggles doodle mode */
 function MarginPen({
@@ -160,9 +160,51 @@ function DoodleLayer({
   );
 }
 
+/** Cute-mode companions: a cat patrols the bottom edge, hearts drift up */
+function CuteCritters() {
+  // Occasional floating hearts
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const spawn = () => {
+      const el = document.createElement("span");
+      el.className = "cute-heart";
+      el.setAttribute("aria-hidden", "true");
+      el.textContent = Math.random() > 0.5 ? "♥" : "♡";
+      el.style.left = `${8 + Math.random() * 84}vw`;
+      el.style.fontSize = `${12 + Math.random() * 12}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4200);
+    };
+    spawn();
+    const id = setInterval(spawn, 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const pet = (e: React.MouseEvent) => {
+    sfx.meow();
+    inkBurst(e.clientX, e.clientY - 24, 10, HEART_GLYPHS);
+  };
+
+  return (
+    <button
+      type="button"
+      data-sfx="none"
+      onClick={pet}
+      aria-label="Pet the cat"
+      title="pet the cat"
+      className="cute-cat"
+    >
+      <span className="cute-cat-body" aria-hidden>
+        🐈
+      </span>
+    </button>
+  );
+}
+
 export default function Effects() {
   const [toast, setToast] = useState<string | null>(null);
   const [drawMode, setDrawMode] = useState(false);
+  const [cuteMode, setCuteMode] = useState(false);
   const typed = useRef("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -177,7 +219,7 @@ export default function Effects() {
     const nightShift =
       new Date().getHours() < 5 ? "\n(also — it's late. hydrate. ☕)" : "";
     console.log(
-      `%c✎ Hey, fellow developer! %c\n\nPoking around? Nice. A few secrets are inked in:\n  · type a color — "blue", "red", "green", "purple"… → that print mode\n  · type "reset" → back to paper\n  · type "party" → don't ask, just type it\n  · type "sujal" → summons me\n  · the * in the logo is clickable. repeatedly.\n  · click the ✎ on the margin rule → draw on the page\n\nSource-minded? Say hi: https://sujal.info/github${nightShift}`,
+      `%c✎ Hey, fellow developer! %c\n\nPoking around? Nice. A few secrets are inked in:\n  · type a color — "blue", "red", "green", "purple"… → that print mode\n  · type "cute" → you'll see\n  · type "11:11" → make a wish\n  · type "reset" → back to paper\n  · type "party" → don't ask, just type it\n  · type "sujal" → summons me\n  · the * in the logo is clickable. repeatedly.\n  · click the ✎ on the margin rule → draw on the page\n\nSource-minded? Say hi: https://sujal.info/github${nightShift}`,
       "font-size:16px; font-weight:bold; color:#2547f4;",
       "font-size:12px; color:#50545f;"
     );
@@ -239,6 +281,16 @@ export default function Effects() {
       gray: buildPrint(230, 8),
       grey: buildPrint(230, 8),
       black: buildPrint(230, 6, 12),
+      // Light pastel page, plum ink — paired with the html.cute corner-softening class
+      cute: {
+        "--paper": "253 235 243",
+        "--ink": "91 46 76",
+        "--blue": "232 62 140",
+        "--red": "255 145 77",
+        "--muted": "176 110 145",
+        "--faint": "214 160 186",
+        "--grid": "rgba(232, 62, 140, 0.08)",
+      },
     };
 
     let currentPrint: string | null = null;
@@ -246,6 +298,8 @@ export default function Effects() {
     const clearPrint = () => {
       const style = document.documentElement.style;
       THEME_VARS.forEach((v) => style.removeProperty(v));
+      document.documentElement.classList.remove("cute");
+      setCuteMode(false);
       currentPrint = null;
     };
 
@@ -254,6 +308,8 @@ export default function Effects() {
       Object.entries(PRINTS[name]).forEach(([v, value]) =>
         style.setProperty(v, value)
       );
+      document.documentElement.classList.toggle("cute", name === "cute");
+      setCuteMode(name === "cute");
       currentPrint = name;
     };
 
@@ -275,17 +331,41 @@ export default function Effects() {
       },
     };
 
+    // Make-a-wish: typing the time 11:11 (or 1111) showers falling stars
+    const wish = () => {
+      const now = new Date();
+      const isElevenEleven =
+        now.getHours() % 12 === 11 && now.getMinutes() === 11;
+      sfx.ding();
+      inkRain(36, STAR_GLYPHS);
+      showToast(
+        isElevenEleven
+          ? "✨ It's actually 11:11. That wish counts double — go."
+          : "✨ 11:11 — close your eyes, make a wish."
+      );
+    };
+    eggs["11:11"] = wish;
+    eggs["1111"] = wish;
+
     for (const name of Object.keys(PRINTS)) {
       eggs[name] = () => {
+        const isCute = name === "cute";
         sfx.unlock();
-        inkBurst(window.innerWidth / 2, window.innerHeight / 2, 36);
+        inkBurst(
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          36,
+          isCute ? HEART_GLYPHS : undefined
+        );
         if (currentPrint === name) {
           clearPrint();
           showToast("✓ Back to paper.");
         } else {
           applyPrint(name);
           showToast(
-            `◫ ${name.charAt(0).toUpperCase() + name.slice(1)}print mode — type "${name}" again to flip back.`
+            isCute
+              ? `🎀 Cute mode — everything's soft and a cat's on patrol. Type "cute" again to toughen up.`
+              : `◫ ${name.charAt(0).toUpperCase() + name.slice(1)}print mode — type "${name}" again to flip back.`
           );
         }
       };
@@ -303,7 +383,7 @@ export default function Effects() {
         typed.current = "";
         return;
       }
-      if (e.key.length !== 1 || !/[a-z]/i.test(e.key)) return;
+      if (e.key.length !== 1 || !/[a-z0-9:]/i.test(e.key)) return;
       typed.current = (typed.current + e.key.toLowerCase()).slice(-maxLen);
       for (const [word, run] of Object.entries(eggs)) {
         if (typed.current.endsWith(word)) {
@@ -348,6 +428,7 @@ export default function Effects() {
     <>
       <DoodleLayer active={drawMode} onExit={toggleDrawMode} />
       <MarginPen active={drawMode} onToggle={toggleDrawMode} />
+      {cuteMode && <CuteCritters />}
       <AnimatePresence>
         {toast && (
           <motion.div
